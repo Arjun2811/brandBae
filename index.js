@@ -95,14 +95,21 @@ function renderFeatured(creators) {
     const grid = document.getElementById("featuredGrid");
     if (!grid) return;
 
-    const featured = [...creators]
-        .sort((a, b) => b.engagement - a.engagement)
-        .slice(0, 3);
+    // Pick top engagement but ensure 3 different niches
+    const sorted = [...creators].sort((a, b) => b.engagement - a.engagement);
+    const seen = new Set();
+    const featured = [];
+    for (const c of sorted) {
+        if (!seen.has(c.niche)) {
+            seen.add(c.niche);
+            featured.push(c);
+        }
+        if (featured.length === 3) break;
+    }
 
     grid.innerHTML = featured.map((c) => {
         const cover = coverGradients[c.niche] || coverGradients.Food;
         const nc    = nicheColors[c.niche]    || nicheColors.Food;
-        const ec    = c.engagement >= 5 ? "good" : c.engagement >= 3 ? "ok" : "";
 
         const ratesHTML = c.barter
             ? `<div class="fc-barter">🤝 Open to brand barter &nbsp;·&nbsp; ${c.niche} brands</div>`
@@ -122,9 +129,8 @@ function renderFeatured(creators) {
             </div>
             <div class="fc-body">
                 <div class="fc-identity">
-                    <div class="fc-handle-blur">
-                        <div class="fc-hb1"></div>
-                        <div class="fc-hb2"></div>
+                    <div class="fc-handle-locked">
+                        <span class="fc-lock-badge">🔒 Handle locked</span>
                     </div>
                     <div class="fc-badges">
                         ${c.verified ? '<span class="fc-badge-v">✓ Verified</span>' : ""}
@@ -138,7 +144,7 @@ function renderFeatured(creators) {
                         <div class="fc-mk">Followers</div>
                     </div>
                     <div class="fc-metric">
-                        <div class="fc-mv ${ec}">${c.engagement}%</div>
+                        <div class="fc-mv" style="color:${nc.color}">${c.engagement}%</div>
                         <div class="fc-mk">Engagement</div>
                     </div>
                     <div class="fc-metric">
