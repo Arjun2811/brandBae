@@ -166,7 +166,7 @@ function renderFeatured(creators) {
                 </div>
                 <div class="fc-section-label">Rates</div>
                 ${ratesHTML}
-                <a href="marketplace.html" class="fc-unlock">🔒 Unlock Profile &nbsp;·&nbsp; <strong>₹149</strong></a>
+                <a href="/marketplace" class="fc-unlock">🔒 Unlock Profile &nbsp;·&nbsp; <strong>₹149</strong></a>
             </div>
         </div>`;
     }).join("");

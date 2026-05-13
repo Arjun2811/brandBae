@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Brandbae</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+    <div id="authWall" class="auth-wall">
+        <div class="auth-card">
+            <div class="logo">Brand<span>bae</span> <span class="admin-tag">Admin</span></div>
+            <h2>Sign in</h2>
+            <div class="field">
+                <label>Email</label>
+                <input type="email" id="adminEmail" placeholder="adminbrandbae@gmail.com" autocomplete="email" />
+            </div>
+            <div class="field">
+                <label>Password</label>
+                <input type="password" id="adminPw" placeholder="Password" autocomplete="current-password" />
+            </div>
+            <div id="authError" class="form-error" style="display:none"></div>
+            <button class="submit-btn" id="authBtn" onclick="adminLogin()">Enter →</button>
+        </div>
+    </div>
+
+    <div id="adminApp" style="display:none">
+
+        <header class="admin-header">
+            <div class="admin-logo">Brand<span>bae</span> <span class="admin-tag">Admin</span></div>
+            <div class="admin-header-right">
+                <span id="pendingBadge" class="pending-badge" style="display:none"></span>
+                <button class="logout-btn" onclick="adminLogout()">Log out</button>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <div class="admin-tabs">
+                <button class="tab active" data-tab="pending" onclick="switchTab('pending')">Pending</button>
+                <button class="tab" data-tab="approved" onclick="switchTab('approved')">Approved</button>
+                <button class="tab" data-tab="rejected" onclick="switchTab('rejected')">Rejected</button>
+            </div>
+
+            <div id="appList" class="app-list">
+                <div class="loading">Loading applications…</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let allApps  = [];
+        let activeTab = "pending";
+
+        // On load, check if already authenticated via cookie
+        window.addEventListener("DOMContentLoaded", async () => {
+            const res = await fetch("/auth/me").catch(() => null);
+            if (res && res.ok) {
+                const user = await res.json();
+                if (user.role === "admin") {
+                    showApp();
+                    loadApplications();
+                }
+            }
+        });
+
+        async function adminLogin() {
+            const btn      = document.getElementById("authBtn");
+            const errBox   = document.getElementById("authError");
+            const email    = document.getElementById("adminEmail").value.trim();
+            const password = document.getElementById("adminPw").value;
+
+            errBox.style.display = "none";
+
+            if (!email || !password) {
+                errBox.textContent = "Please enter your email and password.";
+                errBox.style.display = "block";
+                return;
+            }
+
+            btn.disabled    = true;
+            btn.textContent = "Signing in…";
+
+            try {
+                const res = await fetch("/auth/admin/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password }),
+                });
+                const json = await res.json();
+
+                if (!res.ok) {
+                    errBox.textContent = json.error || "Login failed.";
+                    errBox.style.display = "block";
+                    return;
+                }
+
+                showApp();
+                loadApplications();
+            } catch {
+                errBox.textContent = "Network error. Is the server running?";
+                errBox.style.display = "block";
+            } finally {
+                btn.disabled    = false;
+                btn.textContent = "Enter →";
+            }
+        }
+
+        // Allow Enter key on both fields
+        ["adminEmail", "adminPw"].forEach(id =>
+            document.getElementById(id).addEventListener("keydown", e => {
+                if (e.key === "Enter") adminLogin();
+            })
+        );
+
+        function showApp() {
+            document.getElementById("authWall").style.display = "none";
+            document.getElementById("adminApp").style.display  = "block";
+        }
+
+        async function adminLogout() {
+            await fetch("/auth/logout", { method: "POST" }).catch(() => {});
+            document.getElementById("authWall").style.display = "flex";
+            document.getElementById("adminApp").style.display  = "none";
+            document.getElementById("adminEmail").value = "";
+            document.getElementById("adminPw").value    = "";
+        }
+
+        async function loadApplications() {
+            try {
+                const res = await fetch("/api/admin/applications");
+                if (res.status === 401 || res.status === 403) {
+                    document.getElementById("appList").innerHTML =
+                        `<div class="empty">Session expired. Please log in again.</div>`;
+                    document.getElementById("authWall").style.display = "flex";
+                    document.getElementById("adminApp").style.display  = "none";
+                    return;
+                }
+                allApps = await res.json();
+                renderApps();
+                updatePendingBadge();
+            } catch {
+                document.getElementById("appList").innerHTML =
+                    `<div class="empty">Failed to load. Is the server running?</div>`;
+            }
+        }
+
+        function updatePendingBadge() {
+            const count = allApps.filter(a => a.status === "pending").length;
+            const badge = document.getElementById("pendingBadge");
+            badge.textContent    = count + " pending";
+            badge.style.display  = count > 0 ? "inline-block" : "none";
+        }
+
+        function switchTab(tab) {
+            activeTab = tab;
+            document.querySelectorAll(".tab").forEach(t =>
+                t.classList.toggle("active", t.dataset.tab === tab)
+            );
+            renderApps();
+        }
+
+        function renderApps() {
+            const filtered = allApps.filter(a => a.status === activeTab);
+            const list = document.getElementById("appList");
+
+            if (!filtered.length) {
+                list.innerHTML = `<div class="empty">No ${activeTab} applications.</div>`;
+                return;
+            }
+
+            list.innerHTML = filtered.map(a => `
+                <div class="app-card" id="app-${a.id}">
+                    <div class="app-top">
+                        <div class="app-identity">
+                            <div class="app-name">${a.full_name}</div>
+                            <div class="app-handle">@${a.instagram_handle}</div>
+                        </div>
+                        <div class="app-meta">
+                            <span class="app-niche">${a.niche}</span>
+                            <span class="app-city">📍 ${a.city}</span>
+                        </div>
+                    </div>
+                    <div class="app-stats">
+                        <div class="app-stat">
+                            <strong>${Number(a.followers).toLocaleString("en-IN")}</strong>
+                            <span>Followers</span>
+                        </div>
+                        ${a.barter
+                            ? `<div class="app-stat barter"><strong>Barter</strong><span>${a.barter_note || a.niche + " brands"}</span></div>`
+                            : `<div class="app-stat"><strong>₹${Number(a.reel_price).toLocaleString("en-IN")}</strong><span>Reel rate</span></div>`
+                        }
+                        <div class="app-stat"><strong>${a.email}</strong><span>Email</span></div>
+                        <div class="app-stat">
+                            <strong>${new Date(a.created_at).toLocaleDateString("en-IN")}</strong>
+                            <span>Applied</span>
+                        </div>
+                    </div>
+                    ${a.bio ? `<div class="app-bio">${a.bio}</div>` : ""}
+                    ${a.status === "pending" ? `
+                        <div class="app-actions">
+                            <button class="btn-approve" onclick="review(${a.id}, 'approved')">✓ Approve</button>
+                            <button class="btn-reject"  onclick="review(${a.id}, 'rejected')">✕ Reject</button>
+                        </div>`
+                    : `<div class="app-status-tag ${a.status}">${a.status}</div>`}
+                </div>
+            `).join("");
+        }
+
+        async function review(id, status) {
+            const card = document.getElementById("app-" + id);
+            card.style.opacity       = "0.5";
+            card.style.pointerEvents = "none";
+
+            try {
+                const res = await fetch(`/api/admin/applications/${id}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ status }),
+                });
+                if (!res.ok) throw new Error();
+
+                const app = allApps.find(a => a.id === id);
+                if (app) app.status = status;
+                renderApps();
+                updatePendingBadge();
+            } catch {
+                card.style.opacity       = "1";
+                card.style.pointerEvents = "auto";
+                alert("Failed to update. Try again.");
+            }
+        }
+    </script>
+</body>
+</html>

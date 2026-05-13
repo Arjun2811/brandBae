@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apply as a Creator — Brandbae</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="join.css" />
+</head>
+<body>
+
+    <nav>
+        <a href="/" class="logo">Brand<span>bae</span></a>
+        <a href="/login/creator" class="nav-login">Already applied? Log in →</a>
+    </nav>
+
+    <div class="page">
+
+        <div class="form-side">
+            <div class="form-wrap">
+                <div class="form-eyebrow">
+                    <span class="eyebrow-dot"></span>
+                    Creator Applications
+                </div>
+                <h1>Get listed on Brandbae</h1>
+                <p class="form-sub">Fill in your details below. Our team reviews every application within 48 hours and we'll email you once you're live.</p>
+
+                <form id="joinForm" novalidate>
+
+                    <div class="section-label">Account</div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="fullName">Full name</label>
+                            <input type="text" id="fullName" name="full_name" placeholder="Priya Sharma" autocomplete="name" />
+                        </div>
+                        <div class="field">
+                            <label for="email">Email address</label>
+                            <input type="email" id="email" name="email" placeholder="priya@email.com" autocomplete="email" />
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Min. 8 characters" autocomplete="new-password" />
+                        </div>
+                        <div class="field">
+                            <label for="confirmPassword">Confirm password</label>
+                            <input type="password" id="confirmPassword" placeholder="Repeat password" autocomplete="new-password" />
+                        </div>
+                    </div>
+
+                    <div class="section-label">Instagram</div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="handle">Instagram handle</label>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix">@</span>
+                                <input type="text" id="handle" name="instagram_handle" placeholder="yourhandle" />
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="followers">Follower count</label>
+                            <input type="number" id="followers" name="followers" placeholder="e.g. 8500" min="1000" />
+                        </div>
+                    </div>
+
+                    <div class="section-label">Profile</div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="niche">Niche</label>
+                            <select id="niche" name="niche">
+                                <option value="" disabled selected>Select your niche</option>
+                                <option>Food</option>
+                                <option>Fashion</option>
+                                <option>Fitness</option>
+                                <option>Travel</option>
+                                <option>Beauty</option>
+                                <option>Tech</option>
+                                <option>Lifestyle</option>
+                                <option>Gaming</option>
+                                <option>Finance</option>
+                                <option>Comedy</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" placeholder="Mumbai" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="bio">Short bio <span class="optional">(optional)</span></label>
+                        <textarea id="bio" name="bio" rows="3" placeholder="Tell brands what kind of content you make and who your audience is..."></textarea>
+                    </div>
+
+                    <div class="section-label">Pricing</div>
+                    <div class="barter-toggle">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="barterCheck" name="barter" />
+                            <span class="toggle-slider"></span>
+                            I'm open to brand barter instead of paid rates
+                        </label>
+                    </div>
+
+                    <div id="priceFields" class="field-row three-col">
+                        <div class="field">
+                            <label for="reelPrice">Reel (₹)</label>
+                            <input type="number" id="reelPrice" name="reel_price" placeholder="e.g. 3500" min="0" />
+                        </div>
+                        <div class="field">
+                            <label for="storyPrice">Story (₹)</label>
+                            <input type="number" id="storyPrice" name="story_price" placeholder="e.g. 1500" min="0" />
+                        </div>
+                        <div class="field">
+                            <label for="postPrice">Static post (₹)</label>
+                            <input type="number" id="postPrice" name="post_price" placeholder="e.g. 2000" min="0" />
+                        </div>
+                    </div>
+                    <div id="barterNote" class="field" style="display:none">
+                        <label for="barterNoteText">What kind of barter are you open to?</label>
+                        <input type="text" id="barterNoteText" name="barter_note" placeholder="e.g. Fashion brands, skincare products, food deliveries..." />
+                    </div>
+
+                    <div id="formError" class="form-error" style="display:none"></div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Submit Application →
+                    </button>
+                </form>
+
+                <div id="successState" class="success-state" style="display:none">
+                    <div class="success-icon">✓</div>
+                    <h2>Application submitted!</h2>
+                    <p>We'll review your profile within 48 hours and send an email to <strong id="confirmedEmail"></strong> once you're approved.</p>
+                    <a href="/" class="back-link">← Back to homepage</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-side">
+            <div class="info-inner">
+                <div class="info-tag">Why Brandbae?</div>
+                <h2>Your pricing.<br />Your terms.<br />Your audience.</h2>
+                <ul class="info-list">
+                    <li>
+                        <div class="info-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div>
+                            <strong>You set the rate</strong>
+                            <span>List your own reel, story, and post prices. No platform commission.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="info-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                        </div>
+                        <div>
+                            <strong>Verified badge</strong>
+                            <span>Every approved creator gets a verified tag. Brands trust you instantly.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="info-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Inbound collab requests</strong>
+                            <span>Brands message you through Brandbae — no cold DMs, no spreadsheets.</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="info-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div>
+                            <strong>Free to list</strong>
+                            <span>No subscription, no hidden fees. Brands pay to unlock your profile.</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="info-stat-row">
+                    <div class="info-stat"><span>200+</span><small>Active creators</small></div>
+                    <div class="info-stat"><span>10</span><small>Niches covered</small></div>
+                    <div class="info-stat"><span>₹149</span><small>Brands pay to reach you</small></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const barterCheck  = document.getElementById("barterCheck");
+        const priceFields  = document.getElementById("priceFields");
+        const barterNote   = document.getElementById("barterNote");
+
+        barterCheck.addEventListener("change", () => {
+            priceFields.style.display = barterCheck.checked ? "none" : "";
+            barterNote.style.display  = barterCheck.checked ? ""     : "none";
+        });
+
+        document.getElementById("joinForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById("submitBtn");
+            const errBox = document.getElementById("formError");
+            errBox.style.display = "none";
+
+            const data = {
+                full_name:        document.getElementById("fullName").value.trim(),
+                email:            document.getElementById("email").value.trim(),
+                password:         document.getElementById("password").value,
+                instagram_handle: document.getElementById("handle").value.trim().replace(/^@/, ""),
+                niche:            document.getElementById("niche").value,
+                city:             document.getElementById("city").value.trim(),
+                followers:        parseInt(document.getElementById("followers").value) || 0,
+                bio:              document.getElementById("bio").value.trim(),
+                barter:           barterCheck.checked,
+                barter_note:      document.getElementById("barterNoteText").value.trim(),
+                reel_price:       parseInt(document.getElementById("reelPrice").value) || 0,
+                story_price:      parseInt(document.getElementById("storyPrice").value) || 0,
+                post_price:       parseInt(document.getElementById("postPrice").value) || 0,
+            };
+
+            const confirmPw = document.getElementById("confirmPassword").value;
+
+            // Client-side validation
+            const missing = ["full_name","email","password","instagram_handle","niche","city","followers"]
+                .find(k => !data[k]);
+            if (missing) return showError("Please fill in all required fields.");
+            if (data.password !== confirmPw) return showError("Passwords don't match.");
+            if (data.password.length < 8) return showError("Password must be at least 8 characters.");
+            if (data.followers < 1000) return showError("We currently accept creators with 1,000+ followers.");
+
+            btn.disabled = true;
+            btn.textContent = "Submitting…";
+
+            try {
+                const res = await fetch("/auth/creator/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+                const json = await res.json();
+                if (!res.ok) return showError(json.error || "Something went wrong.");
+
+                document.getElementById("joinForm").style.display = "none";
+                document.getElementById("confirmedEmail").textContent = data.email;
+                document.getElementById("successState").style.display = "block";
+            } catch {
+                showError("Network error. Please try again.");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Submit Application →";
+            }
+
+            function showError(msg) {
+                errBox.textContent = msg;
+                errBox.style.display = "block";
+                btn.disabled = false;
+                btn.textContent = "Submit Application →";
+            }
+        });
+    </script>
+</body>
+</html>

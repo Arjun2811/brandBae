@@ -111,6 +111,19 @@ nav.scrolled {
     padding: 10px 22px;
 }
 
+.btn-ghost-dark {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--border-mid);
+    font-size: 13px;
+    padding: 9px 20px;
+}
+
+.btn-ghost-dark:hover {
+    background: var(--bg-soft);
+    border-color: var(--ink);
+}
+
 .btn-primary {
     background: var(--blue);
     color: var(--bg);
