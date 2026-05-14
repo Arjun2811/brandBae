@@ -10,6 +10,20 @@ pool.on("error", (err) => {
     console.error("Unexpected database pool error:", err.message);
 });
 
+// Generates a unique user ID in the format: 2 uppercase letters + 3 digits (e.g. "XK483")
+async function generateUserId() {
+    const L = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let attempt = 0; attempt < 20; attempt++) {
+        const id =
+            L[Math.floor(Math.random() * 26)] +
+            L[Math.floor(Math.random() * 26)] +
+            String(Math.floor(Math.random() * 1000)).padStart(3, "0");
+        const { rows } = await pool.query("SELECT id FROM users WHERE id = $1", [id]);
+        if (!rows.length) return id;
+    }
+    throw new Error("Failed to generate a unique user ID after 20 attempts");
+}
+
 async function initDB() {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS leads (
@@ -46,7 +60,7 @@ async function initDB() {
     `);
     await pool.query(`
         CREATE TABLE IF NOT EXISTS users (
-            id            SERIAL PRIMARY KEY,
+            id            TEXT PRIMARY KEY,
             email         TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
             role          TEXT NOT NULL CHECK (role IN ('brand', 'creator', 'admin')),
@@ -56,7 +70,7 @@ async function initDB() {
     await pool.query(`
         CREATE TABLE IF NOT EXISTS creator_applications (
             id                  SERIAL PRIMARY KEY,
-            user_id             INTEGER REFERENCES users(id) ON DELETE CASCADE,
+            user_id             TEXT REFERENCES users(id) ON DELETE CASCADE,
             full_name           TEXT NOT NULL,
             instagram_handle    TEXT NOT NULL,
             niche               TEXT NOT NULL,
@@ -80,6 +94,7 @@ async function initDB() {
             content_links       TEXT,
             past_collabs        TEXT,
             bio                 TEXT,
+            pending_followers   INTEGER,
             status              TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
             reviewed_at         TIMESTAMPTZ,
             created_at          TIMESTAMPTZ DEFAULT NOW()
@@ -99,10 +114,23 @@ async function initDB() {
         "ALTER TABLE creator_applications ADD COLUMN IF NOT EXISTS min_deal_size INTEGER",
         "ALTER TABLE creator_applications ADD COLUMN IF NOT EXISTS content_links TEXT",
         "ALTER TABLE creator_applications ADD COLUMN IF NOT EXISTS past_collabs TEXT",
+        "ALTER TABLE creator_applications ADD COLUMN IF NOT EXISTS pending_followers INTEGER",
+        "ALTER TABLE creators ADD COLUMN IF NOT EXISTS user_id TEXT",
     ];
     for (const sql of newCols) await pool.query(sql);
+
+    // Backfill user_id on creators rows approved before the column existed
+    await pool.query(`
+        UPDATE creators c
+        SET user_id = ca.user_id
+        FROM creator_applications ca
+        WHERE c.user_id IS NULL
+          AND ca.status = 'approved'
+          AND ca.niche  = c.niche
+          AND ca.city   = c.city
+    `);
 
     console.log("Database ready.");
 }
 
-module.exports = { pool, initDB };
+module.exports = { pool, initDB, generateUserId };

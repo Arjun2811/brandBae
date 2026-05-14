@@ -449,6 +449,244 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* ── TABS ── */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-faint);
+            background: none;
+            border: none;
+            border-radius: 9px;
+            padding: 8px 18px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: var(--ink);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: contents; }
+
+        /* ── EDIT FORM ── */
+        .edit-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .edit-section {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .edit-section:last-child { border-bottom: none; }
+
+        .edit-section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .edit-section-title span {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--ink-faint);
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 2px 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .edit-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+
+        .edit-field:last-child { margin-bottom: 0; }
+
+        .edit-field label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--ink-soft);
+        }
+
+        .edit-field input,
+        .edit-field textarea,
+        .edit-field select {
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink);
+            background: var(--bg);
+            border: 1.5px solid var(--border-mid);
+            border-radius: 10px;
+            padding: 10px 13px;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            width: 100%;
+        }
+
+        .edit-field input:focus,
+        .edit-field textarea:focus,
+        .edit-field select:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(59,91,219,0.1);
+        }
+
+        .edit-field textarea { resize: vertical; }
+
+        .edit-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .edit-row .edit-field { margin-bottom: 0; }
+
+        .edit-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+        .prefix-wrap {
+            display: flex;
+            align-items: center;
+            background: var(--bg);
+            border: 1.5px solid var(--border-mid);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.15s;
+        }
+
+        .prefix-wrap:focus-within {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(59,91,219,0.1);
+        }
+
+        .prefix-sym {
+            padding: 0 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ink-faint);
+            background: var(--bg-soft);
+            border-right: 1.5px solid var(--border-mid);
+            line-height: 42px;
+            flex-shrink: 0;
+        }
+
+        .prefix-wrap input {
+            border: none;
+            box-shadow: none !important;
+            border-radius: 0;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink-soft);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-label input[type="checkbox"] { display: none; }
+
+        .toggle-slider {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            background: var(--border-mid);
+            border-radius: 100px;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .toggle-slider::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        .toggle-label input:checked ~ .toggle-slider { background: var(--blue); }
+        .toggle-label input:checked ~ .toggle-slider::after { transform: translateX(16px); }
+
+        .review-notice {
+            background: var(--amber-light);
+            border: 1px solid rgba(232,144,42,0.2);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 12.5px;
+            color: var(--amber);
+            font-weight: 500;
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .edit-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 24px;
+            background: var(--bg-soft);
+            border-top: 1px solid var(--border);
+        }
+
+        .save-btn {
+            background: var(--ink);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 11px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .save-btn:hover { background: var(--blue); }
+        .save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .save-status {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ink-faint);
+        }
+
+        .save-status.ok  { color: var(--green); }
+        .save-status.err { color: var(--red); }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 860px) {
             .page { grid-template-columns: 1fr; }
@@ -482,7 +720,20 @@
         Loading your dashboard…
     </div>
 
-    <div id="pageContent" class="page" style="display:none">
+    <div id="pageContent" style="display:none">
+
+        <!-- TABS -->
+        <div style="max-width:1100px;margin:0 auto;padding:28px 5% 0;">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+                <button class="tab-btn" onclick="switchTab('edit', this)">Edit Profile</button>
+            </div>
+        </div>
+
+        <div class="page">
+
+        <!-- OVERVIEW TAB -->
+        <div class="tab-panel active" id="tab-overview">
 
         <!-- MAIN COLUMN -->
         <div class="main-col">
@@ -529,6 +780,21 @@
 
                 <div class="section-lbl">Pricing</div>
                 <div class="rates-grid" id="ratesGrid"></div>
+
+                <div id="profileBioWrap" style="display:none">
+                    <div class="section-lbl" style="margin-top:16px">Bio</div>
+                    <p id="profileBio" style="font-size:13px;color:var(--ink-soft);line-height:1.65;"></p>
+                </div>
+
+                <div id="profileCollabsWrap" style="display:none">
+                    <div class="section-lbl" style="margin-top:16px">Past Collabs</div>
+                    <div id="profileCollabs" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+                </div>
+
+                <div id="profileLinksWrap" style="display:none">
+                    <div class="section-lbl" style="margin-top:16px">Content Links</div>
+                    <div id="profileLinks" style="display:flex;flex-direction:column;gap:6px;"></div>
+                </div>
             </div>
 
         </div>
@@ -591,8 +857,118 @@
                 </div>
             </div>
 
-        </div>
-    </div>
+        </div><!-- end side-col -->
+
+        </div><!-- end tab-overview -->
+
+        <!-- EDIT PROFILE TAB -->
+        <div class="tab-panel" id="tab-edit" style="grid-column:1/-1">
+            <div class="edit-card">
+
+                <!-- Basic info -->
+                <div class="edit-section">
+                    <div class="edit-section-title">Basic Info</div>
+                    <div class="edit-row">
+                        <div class="edit-field">
+                            <label>City</label>
+                            <input type="text" id="edit-city" placeholder="Mumbai" />
+                        </div>
+                        <div class="edit-field">
+                            <label>Languages</label>
+                            <input type="text" id="edit-languages" placeholder="Hindi, English..." />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="edit-section">
+                    <div class="edit-section-title">Pricing</div>
+                    <div class="barter-toggle" style="margin-bottom:16px">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="edit-barter" />
+                            <span class="toggle-slider"></span>
+                            Open to brand barter instead of paid rates
+                        </label>
+                    </div>
+                    <div id="edit-price-fields" class="edit-row three">
+                        <div class="edit-field">
+                            <label>Reel (₹)</label>
+                            <div class="prefix-wrap">
+                                <span class="prefix-sym">₹</span>
+                                <input type="number" id="edit-reel-price" placeholder="3500" min="0" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <label>Story (₹)</label>
+                            <div class="prefix-wrap">
+                                <span class="prefix-sym">₹</span>
+                                <input type="number" id="edit-story-price" placeholder="1500" min="0" />
+                            </div>
+                        </div>
+                        <div class="edit-field">
+                            <label>Static post (₹)</label>
+                            <div class="prefix-wrap">
+                                <span class="prefix-sym">₹</span>
+                                <input type="number" id="edit-post-price" placeholder="2000" min="0" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="edit-row" id="edit-pricing-extras">
+                        <div class="edit-field">
+                            <label>Bundle pricing <span style="font-weight:400;color:var(--ink-faint)">(optional)</span></label>
+                            <input type="text" id="edit-bundle" placeholder="e.g. 3 reels for ₹9,000" />
+                        </div>
+                        <div class="edit-field">
+                            <label>Min deal size (₹) <span style="font-weight:400;color:var(--ink-faint)">(optional)</span></label>
+                            <input type="number" id="edit-min-deal" placeholder="e.g. 5000" min="0" />
+                        </div>
+                    </div>
+                    <div class="edit-field" id="edit-barter-note-field" style="display:none">
+                        <label>What kind of barter are you open to?</label>
+                        <input type="text" id="edit-barter-note" placeholder="e.g. Fashion brands, skincare products..." />
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="edit-section">
+                    <div class="edit-section-title">Content &amp; Bio</div>
+                    <div class="edit-field">
+                        <label>Best content links <span style="font-weight:400;color:var(--ink-faint)">(one per line)</span></label>
+                        <textarea id="edit-content-links" rows="3" placeholder="Paste your best reel / post URLs"></textarea>
+                    </div>
+                    <div class="edit-field">
+                        <label>Past brand collabs <span style="font-weight:400;color:var(--ink-faint)">(optional)</span></label>
+                        <textarea id="edit-past-collabs" rows="2" placeholder="e.g. Nykaa, Swiggy, boAt..."></textarea>
+                    </div>
+                    <div class="edit-field">
+                        <label>Bio <span style="font-weight:400;color:var(--ink-faint)">(optional)</span></label>
+                        <textarea id="edit-bio" rows="3" placeholder="Tell brands what kind of content you make..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Follower update (requires review) -->
+                <div class="edit-section">
+                    <div class="edit-section-title">Update Follower Count <span>Needs review</span></div>
+                    <div class="review-notice">
+                        Follower count updates go through a quick review before going live on the marketplace. Usually approved within 24 hours.
+                    </div>
+                    <div class="edit-field">
+                        <label>New follower count</label>
+                        <input type="number" id="edit-followers" placeholder="Leave blank to keep current count" min="1000" />
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="edit-actions">
+                    <button class="save-btn" id="saveBtn" onclick="saveProfile()">Save changes</button>
+                    <span class="save-status" id="saveStatus"></span>
+                </div>
+
+            </div>
+        </div><!-- end tab-edit -->
+
+        </div><!-- end .page grid -->
+    </div><!-- end pageContent -->
 
     <script>
         const nicheColors = {
@@ -672,9 +1048,12 @@
             // Checklist
             renderChecklist(p);
 
+            // Populate edit form with current values
+            populateEditForm(p);
+
             // Show page
             document.getElementById("pageLoading").style.display = "none";
-            document.getElementById("pageContent").style.display = "grid";
+            document.getElementById("pageContent").style.display = "block";
         }
 
         function renderProfile(p) {
@@ -710,6 +1089,34 @@
                     <div class="rate-cell"><span class="rate-val">₹${Number(p.post_price).toLocaleString("en-IN")}</span><span class="rate-key">Post</span></div>
                 `;
 
+            // Bio
+            if (p.bio) {
+                document.getElementById("profileBio").textContent = p.bio;
+                document.getElementById("profileBioWrap").style.display = "block";
+            }
+
+            // Past collabs — render as pills
+            if (p.past_collabs) {
+                const brands = p.past_collabs.split(/[,\n]+/).map(b => b.trim()).filter(Boolean);
+                document.getElementById("profileCollabs").innerHTML = brands.map(b =>
+                    `<span style="font-size:12px;font-weight:600;color:var(--ink-soft);background:var(--bg-soft);border:1px solid var(--border);border-radius:100px;padding:3px 11px;">${b}</span>`
+                ).join("");
+                document.getElementById("profileCollabsWrap").style.display = "block";
+            }
+
+            // Content links
+            if (p.content_links) {
+                const links = p.content_links.split(/\n+/).map(l => l.trim()).filter(Boolean);
+                document.getElementById("profileLinks").innerHTML = links.map(l =>
+                    `<a href="${l}" target="_blank" rel="noopener"
+                        style="font-size:12.5px;font-weight:500;color:var(--blue);text-decoration:none;word-break:break-all;display:flex;align-items:center;gap:6px;">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        ${l}
+                    </a>`
+                ).join("");
+                document.getElementById("profileLinksWrap").style.display = "block";
+            }
+
             document.getElementById("profilePreview").style.display = "block";
         }
 
@@ -738,6 +1145,90 @@
         }
 
         loadDashboard();
+
+        // ── TABS ──
+        function switchTab(name, btn) {
+            document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+            btn.classList.add("active");
+            document.getElementById("tab-" + name).classList.add("active");
+        }
+
+        // ── EDIT FORM: populate & barter toggle ──
+        function populateEditForm(p) {
+            document.getElementById("edit-city").value          = p.city || "";
+            document.getElementById("edit-languages").value     = p.languages || "";
+            document.getElementById("edit-reel-price").value    = p.reel_price || "";
+            document.getElementById("edit-story-price").value   = p.story_price || "";
+            document.getElementById("edit-post-price").value    = p.post_price || "";
+            document.getElementById("edit-bundle").value        = p.bundle_pricing || "";
+            document.getElementById("edit-min-deal").value      = p.min_deal_size || "";
+            document.getElementById("edit-barter-note").value   = p.barter_note || "";
+            document.getElementById("edit-content-links").value = p.content_links || "";
+            document.getElementById("edit-past-collabs").value  = p.past_collabs || "";
+            document.getElementById("edit-bio").value           = p.bio || "";
+
+            const barterCheck = document.getElementById("edit-barter");
+            barterCheck.checked = !!p.barter;
+            toggleBarterFields(!!p.barter);
+
+            barterCheck.addEventListener("change", () => toggleBarterFields(barterCheck.checked));
+        }
+
+        function toggleBarterFields(isBarter) {
+            document.getElementById("edit-price-fields").style.display    = isBarter ? "none" : "";
+            document.getElementById("edit-pricing-extras").style.display  = isBarter ? "none" : "";
+            document.getElementById("edit-barter-note-field").style.display = isBarter ? "" : "none";
+        }
+
+        // ── SAVE ──
+        async function saveProfile() {
+            const btn    = document.getElementById("saveBtn");
+            const status = document.getElementById("saveStatus");
+            btn.disabled = true;
+            status.textContent = "Saving…";
+            status.className   = "save-status";
+
+            const isBarter = document.getElementById("edit-barter").checked;
+            const requestedFollowers = parseInt(document.getElementById("edit-followers").value) || null;
+
+            const body = {
+                city:                document.getElementById("edit-city").value.trim() || null,
+                languages:           document.getElementById("edit-languages").value.trim() || null,
+                barter:              isBarter,
+                barter_note:         document.getElementById("edit-barter-note").value.trim() || null,
+                reel_price:          parseInt(document.getElementById("edit-reel-price").value) || null,
+                story_price:         parseInt(document.getElementById("edit-story-price").value) || null,
+                post_price:          parseInt(document.getElementById("edit-post-price").value) || null,
+                bundle_pricing:      document.getElementById("edit-bundle").value.trim() || null,
+                min_deal_size:       parseInt(document.getElementById("edit-min-deal").value) || null,
+                content_links:       document.getElementById("edit-content-links").value.trim() || null,
+                past_collabs:        document.getElementById("edit-past-collabs").value.trim() || null,
+                bio:                 document.getElementById("edit-bio").value.trim() || null,
+                requested_followers: requestedFollowers,
+            };
+
+            try {
+                const res  = await fetch("/api/creator/me", { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+                const json = await res.json();
+
+                if (!res.ok) {
+                    status.textContent = json.error || "Something went wrong.";
+                    status.className   = "save-status err";
+                } else {
+                    status.textContent = json.followerUpdatePending
+                        ? "Saved! Follower count update is pending review."
+                        : "Changes saved ✓";
+                    status.className = "save-status ok";
+                    document.getElementById("edit-followers").value = "";
+                }
+            } catch {
+                status.textContent = "Network error. Try again.";
+                status.className   = "save-status err";
+            } finally {
+                btn.disabled = false;
+            }
+        }
     </script>
 </body>
 </html>

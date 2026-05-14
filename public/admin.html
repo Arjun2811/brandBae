@@ -43,6 +43,7 @@
                 <button class="tab active" data-tab="pending" onclick="switchTab('pending')">Pending</button>
                 <button class="tab" data-tab="approved" onclick="switchTab('approved')">Approved</button>
                 <button class="tab" data-tab="rejected" onclick="switchTab('rejected')">Rejected</button>
+                <button class="tab" data-tab="updates" onclick="switchTab('updates')">Updates <span id="updatesBadge" style="display:none;background:#e53e3e;color:#fff;font-size:10px;font-weight:700;border-radius:100px;padding:1px 6px;margin-left:4px;"></span></button>
             </div>
 
             <div id="appList" class="app-list">
@@ -152,8 +153,13 @@
         function updatePendingBadge() {
             const count = allApps.filter(a => a.status === "pending").length;
             const badge = document.getElementById("pendingBadge");
-            badge.textContent    = count + " pending";
-            badge.style.display  = count > 0 ? "inline-block" : "none";
+            badge.textContent   = count + " pending";
+            badge.style.display = count > 0 ? "inline-block" : "none";
+
+            const updateCount = allApps.filter(a => a.pending_followers).length;
+            const ubadge = document.getElementById("updatesBadge");
+            ubadge.textContent   = updateCount;
+            ubadge.style.display = updateCount > 0 ? "inline" : "none";
         }
 
         function switchTab(tab) {
@@ -161,7 +167,7 @@
             document.querySelectorAll(".tab").forEach(t =>
                 t.classList.toggle("active", t.dataset.tab === tab)
             );
-            renderApps();
+            tab === "updates" ? renderUpdates() : renderApps();
         }
 
         function renderApps() {
@@ -233,6 +239,85 @@
                     : `<div class="app-status-tag ${a.status}">${a.status}</div>`}
                 </div>
             `).join("");
+        }
+
+        function renderUpdates() {
+            const list = document.getElementById("appList");
+            const pending = allApps.filter(a => a.pending_followers);
+
+            if (!pending.length) {
+                list.innerHTML = `<div class="empty">No pending follower updates.</div>`;
+                return;
+            }
+
+            list.innerHTML = pending.map(a => `
+                <div class="app-card" id="upd-${a.user_id}">
+                    <div class="app-top">
+                        <div class="app-identity">
+                            <div class="app-name">${a.full_name}</div>
+                            <div class="app-handle">@${a.instagram_handle}</div>
+                        </div>
+                        <div class="app-meta">
+                            <span class="app-niche">${a.niche}</span>
+                            <span class="app-city">📍 ${a.city}</span>
+                        </div>
+                    </div>
+
+                    <div class="app-stats">
+                        <div class="app-stat">
+                            <strong>${Number(a.followers).toLocaleString("en-IN")}</strong>
+                            <span>Current followers</span>
+                        </div>
+                        <div class="app-stat" style="color:#3B5BDB">
+                            <strong style="color:#3B5BDB">${Number(a.pending_followers).toLocaleString("en-IN")}</strong>
+                            <span>Requested new count</span>
+                        </div>
+                        <div class="app-stat">
+                            <strong style="color:${a.pending_followers > a.followers ? "#16a34a" : "#dc2626"}">
+                                ${a.pending_followers > a.followers ? "+" : ""}${(a.pending_followers - a.followers).toLocaleString("en-IN")}
+                            </strong>
+                            <span>Change</span>
+                        </div>
+                        <div class="app-stat">
+                            <strong>${a.email}</strong>
+                            <span>Email</span>
+                        </div>
+                    </div>
+
+                    <div class="app-actions">
+                        <button class="btn-approve" onclick="reviewFollowerUpdate('${a.user_id}', 'approve')">✓ Approve update</button>
+                        <button class="btn-reject"  onclick="reviewFollowerUpdate('${a.user_id}', 'reject')">✕ Reject</button>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        async function reviewFollowerUpdate(userId, action) {
+            const card = document.getElementById("upd-" + userId);
+            card.style.opacity       = "0.5";
+            card.style.pointerEvents = "none";
+
+            try {
+                const res = await fetch(`/api/admin/follower-update/${userId}`, {
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ action }),
+                });
+                if (!res.ok) throw new Error();
+
+                // Clear pending_followers locally so badge updates
+                const app = allApps.find(a => a.user_id === userId);
+                if (app) {
+                    if (action === "approve") app.followers = app.pending_followers;
+                    app.pending_followers = null;
+                }
+                renderUpdates();
+                updatePendingBadge();
+            } catch {
+                card.style.opacity       = "1";
+                card.style.pointerEvents = "auto";
+                alert("Failed to update. Try again.");
+            }
         }
 
         async function review(id, status) {

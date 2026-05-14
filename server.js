@@ -86,8 +86,8 @@ app.patch("/api/admin/applications/:id", requireAdmin, async (req, res) => {
                      avg_likes, avg_comments, avg_reel_views,
                      age_range, female_p, male_p, locations,
                      reel_price, story_price, post_price,
-                     verified, barter, barter_note)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17)
+                     verified, barter, barter_note, user_id)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18)
                  ON CONFLICT DO NOTHING`,
                 [
                     app.niche, app.followers, 0, app.city,
@@ -96,7 +96,7 @@ app.patch("/api/admin/applications/:id", requireAdmin, async (req, res) => {
                     app.reel_price  || 0,
                     app.story_price || 0,
                     app.post_price  || 0,
-                    true, app.barter, app.barter_note || null,
+                    true, app.barter, app.barter_note || null, app.user_id,
                 ]
             );
         }
@@ -107,6 +107,59 @@ app.patch("/api/admin/applications/:id", requireAdmin, async (req, res) => {
     } catch (err) {
         await client.query("ROLLBACK");
         console.error("PATCH /api/admin/applications error:", err.message);
+        res.status(500).json({ error: "Internal server error" });
+    } finally {
+        client.release();
+    }
+});
+
+// ── ADMIN — approve or reject a follower count update ──
+app.patch("/api/admin/follower-update/:userId", requireAdmin, async (req, res) => {
+    const { action } = req.body;
+    if (!["approve", "reject"].includes(action)) {
+        return res.status(400).json({ error: "action must be 'approve' or 'reject'" });
+    }
+
+    const client = await pool.connect();
+    try {
+        await client.query("BEGIN");
+
+        if (action === "approve") {
+            const { rows: [app] } = await client.query(
+                `UPDATE creator_applications
+                 SET followers = pending_followers, pending_followers = NULL
+                 WHERE user_id = $1 AND pending_followers IS NOT NULL
+                 RETURNING followers, user_id, instagram_handle`,
+                [req.params.userId]
+            );
+            if (!app) {
+                await client.query("ROLLBACK");
+                return res.status(404).json({ error: "No pending follower update found" });
+            }
+            // Update marketplace row — match by user_id, or fall back to niche+city join
+            await client.query(
+                `UPDATE creators c
+                 SET    followers = $1,
+                        user_id   = $2
+                 FROM   creator_applications ca
+                 WHERE  ca.user_id = $2
+                   AND  (c.user_id = $2 OR (c.user_id IS NULL AND c.niche = ca.niche AND c.city = ca.city))`,
+                [app.followers, req.params.userId]
+            );
+            console.log(`[ADMIN] Follower update approved for @${app.instagram_handle} → ${app.followers}`);
+        } else {
+            await client.query(
+                `UPDATE creator_applications SET pending_followers = NULL WHERE user_id = $1`,
+                [req.params.userId]
+            );
+            console.log(`[ADMIN] Follower update rejected for user #${req.params.userId}`);
+        }
+
+        await client.query("COMMIT");
+        res.json({ success: true });
+    } catch (err) {
+        await client.query("ROLLBACK");
+        console.error("PATCH /api/admin/follower-update error:", err.message);
         res.status(500).json({ error: "Internal server error" });
     } finally {
         client.release();

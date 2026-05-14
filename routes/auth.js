@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt  = require("bcrypt");
 const jwt     = require("jsonwebtoken");
-const { pool } = require("../db/pool");
+const { pool, generateUserId } = require("../db/pool");
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "brandbae-dev-secret-change-in-prod";
@@ -51,10 +51,11 @@ router.post("/creator/register", async (req, res) => {
         if (handleTaken.rows.length) return res.status(409).json({ error: "This Instagram handle is already registered on Brandbae." });
 
         const password_hash = await bcrypt.hash(password, 12);
+        const userId = await generateUserId();
 
         const { rows: [user] } = await pool.query(
-            `INSERT INTO users (email, password_hash, role) VALUES ($1, $2, 'creator') RETURNING id`,
-            [email.toLowerCase().trim(), password_hash]
+            `INSERT INTO users (id, email, password_hash, role) VALUES ($1, $2, $3, 'creator') RETURNING id`,
+            [userId, email.toLowerCase().trim(), password_hash]
         );
 
         await pool.query(

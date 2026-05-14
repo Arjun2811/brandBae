@@ -1,11 +1,6 @@
 require("dotenv").config();
-const { Pool } = require("pg");
-const bcrypt   = require("bcrypt");
-
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false,
-});
+const { pool, generateUserId } = require("./db/pool");
+const bcrypt = require("bcrypt");
 
 async function seedAdmin() {
     const email    = "adminbrandbae@gmail.com";
@@ -13,25 +8,28 @@ async function seedAdmin() {
 
     const hash = await bcrypt.hash(password, 12);
 
-    await pool.query(`
-        CREATE TABLE IF NOT EXISTS users (
-            id            SERIAL PRIMARY KEY,
-            email         TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            role          TEXT NOT NULL CHECK (role IN ('brand', 'creator', 'admin')),
-            created_at    TIMESTAMPTZ DEFAULT NOW()
-        )
-    `);
+    // Check if admin already exists
+    const { rows } = await pool.query(
+        `SELECT id FROM users WHERE email = $1`,
+        [email]
+    );
 
-    await pool.query(`
-        INSERT INTO users (email, password_hash, role)
-        VALUES ($1, $2, 'admin')
-        ON CONFLICT (email) DO UPDATE
-            SET password_hash = EXCLUDED.password_hash,
-                role          = 'admin'
-    `, [email, hash]);
+    if (rows.length) {
+        // Update password and ensure role is admin
+        await pool.query(
+            `UPDATE users SET password_hash = $1, role = 'admin' WHERE email = $2`,
+            [hash, email]
+        );
+        console.log(`Admin user updated: ${email}`);
+    } else {
+        const userId = await generateUserId();
+        await pool.query(
+            `INSERT INTO users (id, email, password_hash, role) VALUES ($1, $2, $3, 'admin')`,
+            [userId, email, hash]
+        );
+        console.log(`Admin user created: ${email} (id: ${userId})`);
+    }
 
-    console.log(`Admin user ready: ${email}`);
     await pool.end();
 }
 
