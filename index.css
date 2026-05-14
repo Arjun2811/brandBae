@@ -1736,61 +1736,61 @@ footer {
 .lp-cat-food {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/food.jpg') center/cover no-repeat;
+        url('assets/images/food.webp') center/cover no-repeat;
 }
 
 .lp-cat-fashion {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/fashion.jpg') center/cover no-repeat;
+        url('assets/images/fashion.webp') center/cover no-repeat;
 }
 
 .lp-cat-fitness {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/fitness.jpg') center/cover no-repeat;
+        url('assets/images/fitness.webp') center/cover no-repeat;
 }
 
 .lp-cat-travel {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/travel.jpg') center/cover no-repeat;
+        url('assets/images/travel.webp') center/cover no-repeat;
 }
 
 .lp-cat-beauty {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/beauty.jpg') center/cover no-repeat;
+        url('assets/images/beauty.webp') center/cover no-repeat;
 }
 
 .lp-cat-tech {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/tech.jpg') center/cover no-repeat;
+        url('assets/images/tech.webp') center/cover no-repeat;
 }
 
 .lp-cat-lifestyle {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/lifestyle.jpg') center/cover no-repeat;
+        url('assets/images/lifestyle.webp') center/cover no-repeat;
 }
 
 .lp-cat-gaming {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/gaming.jpg') center/cover no-repeat;
+        url('assets/images/gaming.webp') center/cover no-repeat;
 }
 
 .lp-cat-finance {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/finance.jpg') center/cover no-repeat;
+        url('assets/images/finance.webp') center/cover no-repeat;
 }
 
 .lp-cat-comedy {
     background:
         linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-        url('assets/images/comdey.jpg') center/cover no-repeat;
+        url('assets/images/comdey.webp') center/cover no-repeat;
 }
 
 /* ── UNLOCK DETAILS ── */
