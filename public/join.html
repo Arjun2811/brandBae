@@ -17,45 +17,92 @@
     </nav>
 
     <div class="page">
+    <div class="form-side">
+        <div class="join-card">
 
-        <div class="form-side">
-            <div class="form-wrap">
+            <!-- CARD HEADER -->
+            <div class="card-header">
                 <div class="form-eyebrow">
                     <span class="eyebrow-dot"></span>
-                    Creator Applications
+                    Creator Application
                 </div>
-                <h1>Get listed on Brandbae</h1>
-                <p class="form-sub">Fill in your details below. Our team reviews every application within 48 hours and we'll email you once you're live.</p>
+                <h1>Let's get you listed.</h1>
+                <p class="form-sub">Takes about 3 minutes. We review every application within 48 hours.</p>
+            </div>
 
-                <form id="joinForm" novalidate>
+            <!-- STEPPER -->
+            <div class="stepper" id="stepper">
+                <div class="stepper-track">
+                    <div class="stepper-fill" id="stepperFill"></div>
+                </div>
+                <div class="stepper-steps">
+                    <div class="stepper-step active" data-step="1">
+                        <div class="step-dot"></div>
+                        <span class="step-num">01</span>
+                        <span class="step-label">Account</span>
+                    </div>
+                    <div class="stepper-step" data-step="2">
+                        <div class="step-dot"></div>
+                        <span class="step-num">02</span>
+                        <span class="step-label">Profile</span>
+                    </div>
+                    <div class="stepper-step" data-step="3">
+                        <div class="step-dot"></div>
+                        <span class="step-num">03</span>
+                        <span class="step-label">Niche</span>
+                    </div>
+                    <div class="stepper-step" data-step="4">
+                        <div class="step-dot"></div>
+                        <span class="step-num">04</span>
+                        <span class="step-label">Rate card</span>
+                    </div>
+                </div>
+            </div>
 
-                    <!-- 01 ACCOUNT -->
-                    <div class="section-label">01 — Account</div>
-                    <div class="field-row">
-                        <div class="field">
+            <!-- FORM -->
+            <form id="joinForm" novalidate>
+
+                <!-- STEP 1: ACCOUNT -->
+                <div class="form-step" id="step-1">
+                    <div class="field">
+                        <div class="label-row">
                             <label for="fullName">Full name <span class="req">*</span></label>
-                            <input type="text" id="fullName" name="full_name" placeholder="Priya Sharma" autocomplete="name" />
                         </div>
-                        <div class="field">
+                        <input type="text" id="fullName" name="full_name" placeholder="As it appears on your ID" autocomplete="name" />
+                    </div>
+                    <div class="field">
+                        <div class="label-row">
                             <label for="email">Email address <span class="req">*</span></label>
-                            <input type="email" id="email" name="email" placeholder="priya@email.com" autocomplete="email" />
+                            <span class="label-hint">For collab requests</span>
                         </div>
+                        <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email" />
                     </div>
                     <div class="field-row">
                         <div class="field">
-                            <label for="password">Password <span class="req">*</span></label>
+                            <div class="label-row">
+                                <label for="password">Password <span class="req">*</span></label>
+                                <span class="label-hint" id="pwCounter">0 / 8</span>
+                            </div>
                             <input type="password" id="password" name="password" placeholder="Min. 8 characters" autocomplete="new-password" />
+                            <span class="field-hint">Mix letters &amp; numbers for a strong password.</span>
                         </div>
                         <div class="field">
-                            <label for="confirmPassword">Confirm password <span class="req">*</span></label>
+                            <div class="label-row">
+                                <label for="confirmPassword">Confirm password <span class="req">*</span></label>
+                            </div>
                             <input type="password" id="confirmPassword" placeholder="Repeat password" autocomplete="new-password" />
                         </div>
                     </div>
+                    <div id="error-1" class="form-error" style="display:none"></div>
+                </div>
 
-                    <!-- 02 BASIC INFO -->
-                    <div class="section-label">02 — Basic Info</div>
+                <!-- STEP 2: PROFILE -->
+                <div class="form-step" id="step-2" style="display:none">
                     <div class="field">
-                        <label for="handle">Instagram handle <span class="req">*</span></label>
+                        <div class="label-row">
+                            <label for="handle">Instagram handle <span class="req">*</span></label>
+                            <span class="label-hint">Your public @username</span>
+                        </div>
                         <div class="input-prefix-wrap">
                             <span class="input-prefix">@</span>
                             <input type="text" id="handle" name="instagram_handle" placeholder="yourhandle" />
@@ -63,11 +110,15 @@
                     </div>
                     <div class="field-row">
                         <div class="field">
-                            <label for="city">City <span class="req">*</span></label>
+                            <div class="label-row">
+                                <label for="city">City <span class="req">*</span></label>
+                            </div>
                             <input type="text" id="city" name="city" placeholder="Mumbai" />
                         </div>
                         <div class="field">
-                            <label for="state">State <span class="req">*</span></label>
+                            <div class="label-row">
+                                <label for="state">State <span class="req">*</span></label>
+                            </div>
                             <select id="state" name="state">
                                 <option value="" disabled selected>Select state</option>
                                 <option>Andhra Pradesh</option><option>Arunachal Pradesh</option>
@@ -86,14 +137,69 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="languages">Languages spoken <span class="req">*</span></label>
+                        <div class="label-row">
+                            <label for="languages">Languages spoken <span class="req">*</span></label>
+                            <span class="label-hint">Helps brands match for regional campaigns</span>
+                        </div>
                         <input type="text" id="languages" name="languages" placeholder="e.g. Hindi, English, Tamil" />
                     </div>
-
-                    <!-- 03 NICHE -->
-                    <div class="section-label">03 — Your Niche</div>
+                    <div class="step-divider">Your Stats</div>
+                    <div class="field-row three-col">
+                        <div class="field">
+                            <div class="label-row">
+                                <label for="followers">Followers <span class="req">*</span></label>
+                            </div>
+                            <input type="number" id="followers" name="followers" placeholder="e.g. 8500" min="1000" />
+                        </div>
+                        <div class="field">
+                            <div class="label-row">
+                                <label for="avgReelViews">Avg reel views <span class="req">*</span></label>
+                            </div>
+                            <input type="number" id="avgReelViews" name="avg_reel_views" placeholder="e.g. 15000" min="0" />
+                        </div>
+                        <div class="field">
+                            <div class="label-row">
+                                <label for="accountAge">Account age <span class="req">*</span></label>
+                            </div>
+                            <input type="text" id="accountAge" name="account_age" placeholder="e.g. 2 years" />
+                        </div>
+                    </div>
+                    <div class="step-divider">Audience Demographics</div>
                     <div class="field">
-                        <label>Primary niche <span class="req">*</span></label>
+                        <div class="label-row">
+                            <label>Primary age group <span class="req">*</span></label>
+                        </div>
+                        <div class="pill-group" id="ageGroup">
+                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="13-17" /><span>13 – 17</span></label>
+                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="18-24" /><span>18 – 24</span></label>
+                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="25-34" /><span>25 – 34</span></label>
+                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="35-44" /><span>35 – 44</span></label>
+                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="45+" /><span>45+</span></label>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <div class="label-row">
+                                <label for="audienceGender">Gender split <span class="req">*</span></label>
+                            </div>
+                            <input type="text" id="audienceGender" name="audience_gender" placeholder="e.g. 65% Female, 35% Male" />
+                        </div>
+                        <div class="field">
+                            <div class="label-row">
+                                <label for="topLocations">Top locations <span class="req">*</span></label>
+                            </div>
+                            <input type="text" id="topLocations" name="top_locations" placeholder="e.g. Mumbai, Delhi, Bangalore" />
+                        </div>
+                    </div>
+                    <div id="error-2" class="form-error" style="display:none"></div>
+                </div>
+
+                <!-- STEP 3: NICHE -->
+                <div class="form-step" id="step-3" style="display:none">
+                    <div class="field">
+                        <div class="label-row">
+                            <label>Primary niche <span class="req">*</span></label>
+                        </div>
                         <div class="niche-grid" id="nicheGrid">
                             <label class="niche-opt"><input type="radio" name="niche" value="Food" /><span>🍜 Food &amp; Beverages</span></label>
                             <label class="niche-opt"><input type="radio" name="niche" value="Fashion" /><span>👗 Fashion &amp; Lifestyle</span></label>
@@ -108,52 +214,35 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label for="nicheSubcategories">Niche subcategories <span class="optional">(optional)</span></label>
+                        <div class="label-row">
+                            <label for="nicheSubcategories">Subcategories <span class="optional">(optional)</span></label>
+                        </div>
                         <input type="text" id="nicheSubcategories" name="niche_subcategories" placeholder="e.g. Street food, Café reviews, Home cooking" />
                     </div>
-
-                    <!-- 04 STATS -->
-                    <div class="section-label">04 — Your Stats</div>
-                    <div class="field-row three-col">
-                        <div class="field">
-                            <label for="followers">Follower count <span class="req">*</span></label>
-                            <input type="number" id="followers" name="followers" placeholder="e.g. 8500" min="1000" />
-                        </div>
-                        <div class="field">
-                            <label for="avgReelViews">Avg reel views <span class="req">*</span></label>
-                            <input type="number" id="avgReelViews" name="avg_reel_views" placeholder="e.g. 15000" min="0" />
-                        </div>
-                        <div class="field">
-                            <label for="accountAge">Account age <span class="req">*</span></label>
-                            <input type="text" id="accountAge" name="account_age" placeholder="e.g. 2 years" />
-                        </div>
-                    </div>
-
-                    <!-- 05 AUDIENCE -->
-                    <div class="section-label">05 — Audience Demographics</div>
                     <div class="field">
-                        <label>Primary age group <span class="req">*</span></label>
-                        <div class="pill-group" id="ageGroup">
-                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="13-17" /><span>13 – 17</span></label>
-                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="18-24" /><span>18 – 24</span></label>
-                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="25-34" /><span>25 – 34</span></label>
-                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="35-44" /><span>35 – 44</span></label>
-                            <label class="pill-opt"><input type="radio" name="audience_age_group" value="45+" /><span>45+</span></label>
+                        <div class="label-row">
+                            <label for="contentLinks">Best content links <span class="req">*</span></label>
+                            <span class="label-hint">One URL per line</span>
                         </div>
+                        <textarea id="contentLinks" name="content_links" rows="3" placeholder="Paste your best reel / post URLs"></textarea>
                     </div>
-                    <div class="field-row">
-                        <div class="field">
-                            <label for="audienceGender">Audience gender split <span class="req">*</span></label>
-                            <input type="text" id="audienceGender" name="audience_gender" placeholder="e.g. 65% Female, 35% Male" />
+                    <div class="field">
+                        <div class="label-row">
+                            <label for="pastCollabs">Past brand collabs <span class="optional">(optional)</span></label>
                         </div>
-                        <div class="field">
-                            <label for="topLocations">Top audience locations <span class="req">*</span></label>
-                            <input type="text" id="topLocations" name="top_locations" placeholder="e.g. Mumbai, Delhi, Bangalore" />
-                        </div>
+                        <textarea id="pastCollabs" name="past_collabs" rows="2" placeholder="e.g. Nykaa, Swiggy, boAt..."></textarea>
                     </div>
+                    <div class="field">
+                        <div class="label-row">
+                            <label for="bio">Short bio <span class="optional">(optional)</span></label>
+                        </div>
+                        <textarea id="bio" name="bio" rows="2" placeholder="Tell brands what kind of content you make and who your audience is..."></textarea>
+                    </div>
+                    <div id="error-3" class="form-error" style="display:none"></div>
+                </div>
 
-                    <!-- 06 PRICING -->
-                    <div class="section-label">06 — Your Pricing</div>
+                <!-- STEP 4: RATE CARD -->
+                <div class="form-step" id="step-4" style="display:none">
                     <div class="barter-toggle">
                         <label class="toggle-label">
                             <input type="checkbox" id="barterCheck" name="barter" />
@@ -163,122 +252,295 @@
                     </div>
                     <div id="priceFields" class="field-row three-col">
                         <div class="field">
-                            <label for="reelPrice">Reel (₹) <span class="req">*</span></label>
-                            <input type="number" id="reelPrice" name="reel_price" placeholder="e.g. 3500" min="0" />
+                            <div class="label-row">
+                                <label for="reelPrice">Reel <span class="req">*</span></label>
+                            </div>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="reelPrice" name="reel_price" placeholder="3500" min="0" />
+                            </div>
                         </div>
                         <div class="field">
-                            <label for="storyPrice">Story (₹) <span class="req">*</span></label>
-                            <input type="number" id="storyPrice" name="story_price" placeholder="e.g. 1500" min="0" />
+                            <div class="label-row">
+                                <label for="storyPrice">Story <span class="req">*</span></label>
+                            </div>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="storyPrice" name="story_price" placeholder="1500" min="0" />
+                            </div>
                         </div>
                         <div class="field">
-                            <label for="postPrice">Static post (₹) <span class="req">*</span></label>
-                            <input type="number" id="postPrice" name="post_price" placeholder="e.g. 2000" min="0" />
+                            <div class="label-row">
+                                <label for="postPrice">Static post <span class="req">*</span></label>
+                            </div>
+                            <div class="input-prefix-wrap">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="postPrice" name="post_price" placeholder="2000" min="0" />
+                            </div>
                         </div>
                     </div>
                     <div class="field-row" id="pricingExtras">
                         <div class="field">
-                            <label for="bundlePricing">Bundle pricing <span class="optional">(optional)</span></label>
+                            <div class="label-row">
+                                <label for="bundlePricing">Bundle pricing <span class="optional">(optional)</span></label>
+                            </div>
                             <input type="text" id="bundlePricing" name="bundle_pricing" placeholder="e.g. 3 reels for ₹9,000" />
                         </div>
                         <div class="field">
-                            <label for="minDealSize">Minimum deal size (₹) <span class="optional">(optional)</span></label>
+                            <div class="label-row">
+                                <label for="minDealSize">Min deal size (₹) <span class="optional">(optional)</span></label>
+                            </div>
                             <input type="number" id="minDealSize" name="min_deal_size" placeholder="e.g. 5000" min="0" />
                         </div>
                     </div>
                     <div id="barterNoteField" class="field" style="display:none">
-                        <label for="barterNoteText">What kind of barter are you open to?</label>
+                        <div class="label-row">
+                            <label for="barterNoteText">What kind of barter are you open to?</label>
+                        </div>
                         <input type="text" id="barterNoteText" name="barter_note" placeholder="e.g. Fashion brands, skincare products, food deliveries..." />
                     </div>
+                    <div id="error-4" class="form-error" style="display:none"></div>
+                </div>
 
-                    <!-- 07 CONTENT -->
-                    <div class="section-label">07 — Your Content</div>
-                    <div class="field">
-                        <label for="contentLinks">Best content links <span class="req">*</span></label>
-                        <textarea id="contentLinks" name="content_links" rows="3" placeholder="Paste your best reel / post URLs (one per line)"></textarea>
-                    </div>
-                    <div class="field">
-                        <label for="pastCollabs">Past brand collaborations <span class="optional">(optional)</span></label>
-                        <textarea id="pastCollabs" name="past_collabs" rows="3" placeholder="List brands you've worked with before, e.g. Nykaa, Swiggy, boAt..."></textarea>
-                    </div>
-                    <div class="field">
-                        <label for="bio">Short bio <span class="optional">(optional)</span></label>
-                        <textarea id="bio" name="bio" rows="3" placeholder="Tell brands what kind of content you make and who your audience is..."></textarea>
-                    </div>
+            </form>
 
-                    <div id="formError" class="form-error" style="display:none"></div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        Submit Application →
-                    </button>
-
-                </form>
-
-                <div id="successState" class="success-state" style="display:none">
-                    <div class="success-icon">✓</div>
-                    <h2>Application submitted!</h2>
-                    <p>We'll review your profile within 48 hours and send an email to <strong id="confirmedEmail"></strong> once you're approved.</p>
-                    <a href="/" class="back-link">← Back to homepage</a>
+            <!-- CARD FOOTER -->
+            <div class="card-footer" id="cardFooter">
+                <div class="draft-status">
+                    <span class="draft-dot"></span>
+                    <span class="draft-text">Draft saved · just now</span>
+                </div>
+                <div class="footer-btns">
+                    <button type="button" class="back-btn" id="footerBack" style="display:none" onclick="prevStep()">← Back</button>
+                    <button type="button" class="continue-btn" id="footerContinue" onclick="handleContinue()">Continue →</button>
                 </div>
             </div>
-        </div>
 
-        <div class="info-side">
-            <div class="info-inner">
-                <div class="info-tag">Why Brandbae?</div>
-                <h2>Your pricing.<br />Your terms.<br />Your audience.</h2>
-                <ul class="info-list">
-                    <li>
-                        <div class="info-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                        </div>
-                        <div>
-                            <strong>You set the rate</strong>
-                            <span>List your own reel, story, and post prices. No platform commission.</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="info-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
-                        </div>
-                        <div>
-                            <strong>Verified badge</strong>
-                            <span>Every approved creator gets a verified tag. Brands trust you instantly.</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="info-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                        </div>
-                        <div>
-                            <strong>Inbound collab requests</strong>
-                            <span>Brands message you through Brandbae — no cold DMs, no spreadsheets.</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="info-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                        </div>
-                        <div>
-                            <strong>Free to list</strong>
-                            <span>No subscription, no hidden fees. Brands pay to unlock your profile.</span>
-                        </div>
-                    </li>
-                </ul>
-                <div class="info-stat-row">
-                    <div class="info-stat"><span>200+</span><small>Active creators</small></div>
-                    <div class="info-stat"><span>10</span><small>Niches covered</small></div>
-                    <div class="info-stat"><span>₹149</span><small>Brands pay to reach you</small></div>
-                </div>
+            <!-- SUCCESS STATE -->
+            <div id="successState" class="success-state" style="display:none">
+                <div class="success-icon">✓</div>
+                <h2>Application submitted!</h2>
+                <p>We'll review your profile within 48 hours and email <strong id="confirmedEmail"></strong> once you're approved.</p>
+                <a href="/" class="back-link">← Back to homepage</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="info-side">
+        <div class="info-inner">
+            <div class="info-tag">Why Brandbae?</div>
+            <h2>Your pricing.<br />Your terms.<br />Your audience.</h2>
+            <ul class="info-list">
+                <li>
+                    <div class="info-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <div>
+                        <strong>You set the rate</strong>
+                        <span>List your own reel, story, and post prices. No platform commission.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="info-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                    </div>
+                    <div>
+                        <strong>Verified badge</strong>
+                        <span>Every approved creator gets a verified tag. Brands trust you instantly.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="info-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div>
+                        <strong>Inbound collab requests</strong>
+                        <span>Brands message you through Brandbae — no cold DMs, no spreadsheets.</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="info-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div>
+                        <strong>Free to list</strong>
+                        <span>No subscription, no hidden fees. Brands pay to unlock your profile.</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="info-stat-row">
+                <div class="info-stat"><span>200+</span><small>Active creators</small></div>
+                <div class="info-stat"><span>10</span><small>Niches covered</small></div>
+                <div class="info-stat"><span>₹149</span><small>Brands pay to reach you</small></div>
             </div>
         </div>
+    </div>
 
     </div>
 
     <script>
-        const barterCheck   = document.getElementById("barterCheck");
-        const priceFields   = document.getElementById("priceFields");
-        const pricingExtras = document.getElementById("pricingExtras");
-        const barterNoteField = document.getElementById("barterNoteField");
+        let currentStep = 1;
+        const TOTAL_STEPS = 4;
+
+        // Password character counter
+        document.getElementById("password").addEventListener("input", function () {
+            const len = this.value.length;
+            const counter = document.getElementById("pwCounter");
+            counter.textContent = len + " / 8";
+            counter.style.color = len >= 8 ? "var(--green)" : "";
+        });
+
+        function updateStepper(step) {
+            document.querySelectorAll(".stepper-step").forEach((el, i) => {
+                el.classList.remove("active", "completed");
+                if (i + 1 < step) el.classList.add("completed");
+                if (i + 1 === step) el.classList.add("active");
+            });
+            const pct = ((step - 1) / (TOTAL_STEPS - 1)) * 100;
+            document.getElementById("stepperFill").style.width = pct + "%";
+        }
+
+        function showStep(step) {
+            document.querySelectorAll(".form-step").forEach(el => el.style.display = "none");
+            document.getElementById("step-" + step).style.display = "block";
+            updateStepper(step);
+            currentStep = step;
+
+            const backBtn = document.getElementById("footerBack");
+            const continueBtn = document.getElementById("footerContinue");
+            backBtn.style.display = step > 1 ? "" : "none";
+            continueBtn.textContent = step === TOTAL_STEPS ? "Submit Application →" : "Continue →";
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+
+        function showError(step, msg) {
+            const el = document.getElementById("error-" + step);
+            el.textContent = msg;
+            el.style.display = "block";
+            el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
+        function clearError(step) {
+            document.getElementById("error-" + step).style.display = "none";
+        }
+
+        function handleContinue() {
+            if (currentStep < TOTAL_STEPS) {
+                nextStep(currentStep);
+            } else {
+                submitForm();
+            }
+        }
+
+        function nextStep(step) {
+            clearError(step);
+            if (step === 1) {
+                const name = document.getElementById("fullName").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const pw = document.getElementById("password").value;
+                const cpw = document.getElementById("confirmPassword").value;
+                if (!name || !email || !pw || !cpw) return showError(1, "Please fill in all fields.");
+                if (pw.length < 8) return showError(1, "Password must be at least 8 characters.");
+                if (pw !== cpw) return showError(1, "Passwords don't match.");
+            }
+            if (step === 2) {
+                const handle = document.getElementById("handle").value.trim();
+                const city = document.getElementById("city").value.trim();
+                const state = document.getElementById("state").value;
+                const langs = document.getElementById("languages").value.trim();
+                const followers = parseInt(document.getElementById("followers").value) || 0;
+                const views = document.getElementById("avgReelViews").value.trim();
+                const age = document.getElementById("accountAge").value.trim();
+                const ageGroup = document.querySelector('input[name="audience_age_group"]:checked');
+                const gender = document.getElementById("audienceGender").value.trim();
+                const locs = document.getElementById("topLocations").value.trim();
+                if (!handle || !city || !state || !langs) return showError(2, "Please fill in all profile fields.");
+                if (!followers || !views || !age) return showError(2, "Please fill in all stats fields.");
+                if (followers < 1000) return showError(2, "We currently accept creators with 1,000+ followers.");
+                if (!ageGroup || !gender || !locs) return showError(2, "Please fill in your audience demographics.");
+            }
+            if (step === 3) {
+                const niche = document.querySelector('input[name="niche"]:checked');
+                const links = document.getElementById("contentLinks").value.trim();
+                if (!niche) return showError(3, "Please select your primary niche.");
+                if (!links) return showError(3, "Please add at least one content link.");
+            }
+            showStep(step + 1);
+        }
+
+        function prevStep() {
+            showStep(currentStep - 1);
+        }
+
+        async function submitForm() {
+            clearError(4);
+            const btn = document.getElementById("footerContinue");
+            const isBarter = document.getElementById("barterCheck").checked;
+
+            if (!isBarter) {
+                const reel = parseInt(document.getElementById("reelPrice").value) || 0;
+                const story = parseInt(document.getElementById("storyPrice").value) || 0;
+                const post = parseInt(document.getElementById("postPrice").value) || 0;
+                if (!reel || !story || !post) return showError(4, "Please enter your pricing for reel, story, and post.");
+            }
+
+            const data = {
+                full_name:           document.getElementById("fullName").value.trim(),
+                email:               document.getElementById("email").value.trim(),
+                password:            document.getElementById("password").value,
+                instagram_handle:    document.getElementById("handle").value.trim().replace(/^@/, ""),
+                city:                document.getElementById("city").value.trim(),
+                state:               document.getElementById("state").value,
+                languages:           document.getElementById("languages").value.trim(),
+                niche:               document.querySelector('input[name="niche"]:checked')?.value || "",
+                niche_subcategories: document.getElementById("nicheSubcategories").value.trim(),
+                followers:           parseInt(document.getElementById("followers").value) || 0,
+                avg_reel_views:      parseInt(document.getElementById("avgReelViews").value) || 0,
+                account_age:         document.getElementById("accountAge").value.trim(),
+                audience_age_group:  document.querySelector('input[name="audience_age_group"]:checked')?.value || "",
+                audience_gender:     document.getElementById("audienceGender").value.trim(),
+                top_locations:       document.getElementById("topLocations").value.trim(),
+                barter:              isBarter,
+                barter_note:         document.getElementById("barterNoteText").value.trim(),
+                reel_price:          parseInt(document.getElementById("reelPrice").value) || 0,
+                story_price:         parseInt(document.getElementById("storyPrice").value) || 0,
+                post_price:          parseInt(document.getElementById("postPrice").value) || 0,
+                bundle_pricing:      document.getElementById("bundlePricing").value.trim(),
+                min_deal_size:       parseInt(document.getElementById("minDealSize").value) || 0,
+                content_links:       document.getElementById("contentLinks").value.trim(),
+                past_collabs:        document.getElementById("pastCollabs").value.trim(),
+                bio:                 document.getElementById("bio").value.trim(),
+            };
+
+            btn.disabled = true;
+            btn.textContent = "Submitting…";
+
+            try {
+                const res = await fetch("/auth/creator/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+                const json = await res.json();
+                if (!res.ok) {
+                    btn.disabled = false;
+                    btn.textContent = "Submit Application →";
+                    return showError(4, json.error || "Something went wrong.");
+                }
+
+                document.getElementById("stepper").style.display = "none";
+                document.getElementById("joinForm").style.display = "none";
+                document.getElementById("cardFooter").style.display = "none";
+                document.getElementById("confirmedEmail").textContent = data.email;
+                document.getElementById("successState").style.display = "block";
+            } catch {
+                btn.disabled = false;
+                btn.textContent = "Submit Application →";
+                showError(4, "Network error. Please try again.");
+            }
+        }
 
         // Niche radio visual toggle
         document.querySelectorAll(".niche-opt input").forEach(radio => {
@@ -296,92 +558,12 @@
             });
         });
 
-        barterCheck.addEventListener("change", () => {
-            const isBarter = barterCheck.checked;
-            priceFields.style.display    = isBarter ? "none" : "";
-            pricingExtras.style.display  = isBarter ? "none" : "";
-            barterNoteField.style.display = isBarter ? "" : "none";
-        });
-
-        document.getElementById("joinForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const btn    = document.getElementById("submitBtn");
-            const errBox = document.getElementById("formError");
-            errBox.style.display = "none";
-
-            const isBarter = barterCheck.checked;
-
-            const data = {
-                full_name:            document.getElementById("fullName").value.trim(),
-                email:                document.getElementById("email").value.trim(),
-                password:             document.getElementById("password").value,
-                instagram_handle:     document.getElementById("handle").value.trim().replace(/^@/, ""),
-                city:                 document.getElementById("city").value.trim(),
-                state:                document.getElementById("state").value,
-                languages:            document.getElementById("languages").value.trim(),
-                niche:                document.querySelector('input[name="niche"]:checked')?.value || "",
-                niche_subcategories:  document.getElementById("nicheSubcategories").value.trim(),
-                followers:            parseInt(document.getElementById("followers").value) || 0,
-                avg_reel_views:       parseInt(document.getElementById("avgReelViews").value) || 0,
-                account_age:          document.getElementById("accountAge").value.trim(),
-                audience_age_group:   document.querySelector('input[name="audience_age_group"]:checked')?.value || "",
-                audience_gender:      document.getElementById("audienceGender").value.trim(),
-                top_locations:        document.getElementById("topLocations").value.trim(),
-                barter:               isBarter,
-                barter_note:          document.getElementById("barterNoteText").value.trim(),
-                reel_price:           parseInt(document.getElementById("reelPrice").value) || 0,
-                story_price:          parseInt(document.getElementById("storyPrice").value) || 0,
-                post_price:           parseInt(document.getElementById("postPrice").value) || 0,
-                bundle_pricing:       document.getElementById("bundlePricing").value.trim(),
-                min_deal_size:        parseInt(document.getElementById("minDealSize").value) || 0,
-                content_links:        document.getElementById("contentLinks").value.trim(),
-                past_collabs:         document.getElementById("pastCollabs").value.trim(),
-                bio:                  document.getElementById("bio").value.trim(),
-            };
-
-            const confirmPw = document.getElementById("confirmPassword").value;
-
-            // Validation
-            if (!data.full_name || !data.email || !data.password || !data.instagram_handle ||
-                !data.city || !data.state || !data.languages) return showError("Please fill in all required fields in Basic Info.");
-            if (!data.niche) return showError("Please select your primary niche.");
-            if (!data.followers || !data.avg_reel_views || !data.account_age) return showError("Please fill in all stats fields.");
-            if (!data.audience_age_group || !data.audience_gender || !data.top_locations) return showError("Please fill in your audience demographics.");
-            if (!isBarter && (!data.reel_price || !data.story_price || !data.post_price)) return showError("Please enter your pricing for reel, story, and post.");
-            if (!data.content_links) return showError("Please add at least one content link.");
-            if (data.password !== confirmPw) return showError("Passwords don't match.");
-            if (data.password.length < 8) return showError("Password must be at least 8 characters.");
-            if (data.followers < 1000) return showError("We currently accept creators with 1,000+ followers.");
-
-            btn.disabled    = true;
-            btn.textContent = "Submitting…";
-
-            try {
-                const res  = await fetch("/auth/creator/register", {
-                    method:  "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body:    JSON.stringify(data),
-                });
-                const json = await res.json();
-                if (!res.ok) return showError(json.error || "Something went wrong.");
-
-                document.getElementById("joinForm").style.display = "none";
-                document.getElementById("confirmedEmail").textContent = data.email;
-                document.getElementById("successState").style.display = "block";
-            } catch {
-                showError("Network error. Please try again.");
-            } finally {
-                btn.disabled    = false;
-                btn.textContent = "Submit Application →";
-            }
-
-            function showError(msg) {
-                errBox.textContent   = msg;
-                errBox.style.display = "block";
-                errBox.scrollIntoView({ behavior: "smooth", block: "center" });
-                btn.disabled    = false;
-                btn.textContent = "Submit Application →";
-            }
+        // Barter toggle
+        document.getElementById("barterCheck").addEventListener("change", function () {
+            const isBarter = this.checked;
+            document.getElementById("priceFields").style.display = isBarter ? "none" : "";
+            document.getElementById("pricingExtras").style.display = isBarter ? "none" : "";
+            document.getElementById("barterNoteField").style.display = isBarter ? "" : "none";
         });
     </script>
 </body>
