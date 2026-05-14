@@ -313,6 +313,13 @@ fetch("/api/creators")
     .then((r) => r.json())
     .then((data) => {
         creators = data;
-        renderCreators(creators);
+
+        const preNiche = new URLSearchParams(window.location.search).get("niche");
+        if (preNiche) {
+            const btn = document.querySelector(`.niche-chip[data-niche="${preNiche}"]`);
+            if (btn) setNiche(btn);
+        } else {
+            renderCreators(creators);
+        }
     })
     .catch((err) => console.error("Failed to load creators:", err));
